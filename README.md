@@ -1,46 +1,58 @@
-# jsIsFun
+# jsEncode
 
-Small js experiment, similar to [https://github.com/centime/reverJS](reverJS) and [https://github.com/centime/jsfsck](jsf$ck) in that it has no real purpose or application.
+Text to javascript encoder. Just run the js to get the text back.
 
-I guess you could still use it if you want to send a fancy "private" message.
+
+No, it doesn't have any real purpose nor foreseen application. I guess you could maybe use it to send a fancy messages to a fellow hacker ?
+
+For more useless js experiments, see [https://github.com/centime/reverJS](reverJS) and [https://github.com/centime/jsfsck](jsf$ck)
 
 
 ## Example
 
-	> jsIsFun('javascript is fun')
-	'_$=((_$=(!![]+[]))[_=+[]]+[[]+{}][_][$=+!![]]+[+[]+\
-	($$=([]+[])[(![]+{})[[$]+_]+({}+_$)[$]+([]+_$[_$])[$\
-	]+(!_$+_$)[$-~$]+_$[_]+_$[$]+_$[-~$]+(![]+{})[[$]+_]\
-	+_$[_]+({}+_$)[$]+_$[$]])][_][$+[_]]+_$[_]+_$[$]+([!\
-	[]]+[][[]])[$+[_]]+([][[]]+[])[$]+(![]+[_]+$$)[$+$+[\
-	_]]),$_=$-~$+[(_=$-~$+$)-~$],$$=[!![]+{}][$-$][$+[$]\
-	],(+!![]*(+[$]+[_-~_]+[_-~$]+[$-$]+[_-$]+[$-$]+[_-$]\
-	+[$-$]+[_]+[-~_-~$]+[$]+[-~_-~$]+[-~_-~$]+[$-$]+[_+_\
-	]+[_-~_]))[_$]($_)+$$+(+!![]*(+[_-~$]+[-~_-~$]+[_-~$\
-	]))[_$]($_)+$$+(+!![]*(+[-~$]+[$-$]+[-~_]+[_]+[_-$])\
-	)[_$]($_)'
+	> jsEncode('javascript is fun')
+	'(-((_=($=+!![])-~$)-++_)*(+[$]+[_-~_]+[_-~$]+[$-$]+[\
+	_-$]+[$-$]+[_-$]+[$-$]+[_]+[-~_-~$]+[$]+[-~_-~$]+[-~_\
+	-~$]+[$-$]+[_+_]+[_-~_]))[_$=((_$=(!![]+[]))[$_=+[]]+\
+	[[]+{}][$_][$]+[+[]+($$=([]+[])[(![]+{})[[$]+$_]+({}+\
+	_$)[$]+([]+_$[_$])[$]+(!_$+_$)[$-~$]+_$[$_]+_$[$]+_$[\
+	-~$]+(![]+{})[[$]+$_]+_$[$_]+({}+_$)[$]+_$[$]])][$_][\
+	$+[$_]]+_$[$_]+_$[$]+([![]]+[][[]])[$+[$_]]+([][[]]+[\
+	])[$]+(![]+[$_]+$$)[$+$+[$_]])]($_=$-~$+[(_)-~$])+($$\
+	=[!![]+{}][$-$][$+[$]])+($*(+[_-~$]+[-~_-~$]+[_-~$]))\
+	[_$]($_)+$$+($*(+[-~$]+[$-$]+[-~_]+[_]+[_-$]))[_$]($_)'
 
-	> eval(jsIsFun('javascript is fun'))
+	> eval(jsEncode('javascript is fun'))
 	'javascript is fun'
 
 ## Limitations
 
-Only lowercase letters, numbers, and spaces are supported. If your text contains other characters, the ouput will not match it exactly.
+Currently supported:
+	lowercases
+	numbers
+	spaces
+	words of 10 chars max.
+
+Could potentially be supported:
+	long words
+	more punctuation
 
 ## The code:
 
 it's really just this simple function:
 
 ```js
-jsIsFun=(s)=>(r='_$=((_$=(!![]+[]))[_=+[]]+[[]+{}][_]\
-[$=+!![]]+[+[]+($$=([]+[])[(![]+{})[[$]+_]+({}+_$)[$]\
-+([]+_$[_$])[$]+(!_$+_$)[$-~$]+_$[_]+_$[$]+_$[-~$]+(!\
-[]+{})[[$]+_]+_$[_]+({}+_$)[$]+_$[$]])][_][$+[_]]+_$[\
-_]+_$[$]+([![]]+[][[]])[$+[_]]+([][[]]+[])[$]+(![]+[_\
-]+$$)[$+$+[_]]),$_=$-~$+[(_=$-~$+$)-~$],$$=[!![]+{}][\
-$-$][$+[$]],',s.split(' ').forEach((w,i)=>r+=(i>0?'+$\
-$':'')+(n=(i>0?'+':'')+'(+!![]*(',String(parseInt(w,36
-)).split('').forEach((l)=>n+='+['+['$-$','$','-~$','_\
--$','_','-~_','_-~$','-~_-~$','_+_','_-~_'][l]+']'),n+
-'))[_$]($_)')),r) /*-----  github.com/centime  -----*/
+/*------   https://github.com/centime/jsEncode    ------*/
+jsEncode=(s)=>(r='',s.replace(/[^a-z0-9 ]/g,' ').split(' '
+).forEach((w,i)=>(r+=(i==0?'':i>1?'+$$':'+($$=[!![]+{}][$\
+-$][$+[$]])')+(w?(n=(i>0?'+($':'(-((_=($=+!![])-~$)-++_)')
++'*(',String(parseInt(w,36)).split('').forEach((l)=>n+='+\
+['+['$-$','$','-~$','_-$','_','-~_','_-~$','-~_-~$','_+_',
+'_-~_'][l]+']'),n+(i>0?'))[_$]($_)':'))[_$=((_$=(!![]+[])\
+)[$_=+[]]+[[]+{}][$_][$]+[+[]+($$=([]+[])[(![]+{})[[$]+$_\
+]+({}+_$)[$]+([]+_$[_$])[$]+(!_$+_$)[$-~$]+_$[$_]+_$[$]+_\
+$[-~$]+(![]+{})[[$]+$_]+_$[$_]+({}+_$)[$]+_$[$]])][$_][$+\
+[$_]]+_$[$_]+_$[$]+([![]]+[][[]])[$+[$_]]+([][[]]+[])[$]+\
+(![]+[$_]+$$)[$+$+[$_]])]($_=$-~$+[(_)-~$])')):''))),r)
+
 ```
