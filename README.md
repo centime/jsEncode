@@ -28,12 +28,14 @@ For more useless js experiments, see [https://github.com/centime/reverJS](reverJ
 ## Limitations
 
 Currently supported:
+
 	lowercases
 	numbers
 	spaces
 	words of 10 chars max.
 
 Could potentially be supported:
+
 	long words
 	more punctuation
 
